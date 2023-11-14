@@ -15,12 +15,14 @@ app.get('/', (req, res)=>{
 })
 
 app.get('/weather', (req, res)=>{
+    console.log(req.query.cityName)
     axios({
         method: "get",
-        url: `https://api.openweathermap.org/data/2.5/forecast`,
+        url: `https://api.openweathermap.org/data/2.5/weather`,
         params: {
-            q:'London',
+            q:req.query.cityName,
             units:'metric',
+            lang:'pl',
             appid:api_key,     
         }
     }).then((response)=> res.json(response.data))

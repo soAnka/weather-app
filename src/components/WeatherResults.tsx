@@ -2,61 +2,16 @@ import { FaWind } from "react-icons/fa";
 import { WiHumidity } from "react-icons/wi";
 import { BsMoonStars } from "react-icons/bs";
 import { MdOutlineWbSunny } from "react-icons/md";
-import thunder from "./assets/thunder@2x.png";
-import rain from "./assets/rain@2x.png";
-import sunny from "./assets/sunny@2x.png";
-import fog from "./assets/fog@2x.png";
-import cloudy from "./assets/cloud@2x.png";
-import snow from "./assets/snow@2x.png";
-import pressure_icon from "./assets/pressure_icon@2x.png";
-import rabbit from "./assets/winter_rabbit@2x.png";
+import thunder from "../assets/thunder@2x.png";
+import rain from "../assets/rain@2x.png";
+import sunny from "../assets/sunny@2x.png";
+import fog from "../assets/fog@2x.png";
+import cloudy from "../assets/cloud@2x.png";
+import snow from "../assets/snow@2x.png";
+import pressure_icon from "../assets/pressure_icon@2x.png";
+import rabbit from "../assets/winter_rabbit@2x.png";
+import { WeatherResultsProps } from "../types/WeatherTypes";
 
-interface IWeather {
-  coord: {
-    lon: number;
-    lat: number;
-  };
-  weather: [
-    {
-      id: number;
-      main: string;
-      description: string;
-      icon: string;
-    },
-  ];
-  base: string;
-  main: {
-    temp: number;
-    pressure: number;
-    humidity: number;
-    temp_min: number;
-    temp_max: number;
-  };
-  visibility: number;
-  wind: {
-    speed: number;
-    deg: number;
-  };
-  clouds: {
-    all: number;
-  };
-  dt: number;
-  sys: {
-    type: number;
-    id: number;
-    message: number;
-    country: string;
-    sunrise: number;
-    sunset: number;
-  };
-  id: number;
-  name: string;
-  cod: number;
-}
-
-type WeatherResultsProps = {
-  weather: IWeather;
-};
 const WeatherResults = ({ weather }: WeatherResultsProps) => {
   const getTime = (sun: any) => {
     const sunTime = new Date(sun * 1000);
@@ -73,7 +28,6 @@ const WeatherResults = ({ weather }: WeatherResultsProps) => {
   const { sunset, sunrise } = weather.sys;
   const sunsetTime = getTime(sunset);
   const sunriseTime = getTime(sunrise);
-  const nowHour = new Date().getHours();
 
   const info_boxes = [
     {

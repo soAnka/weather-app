@@ -3,19 +3,21 @@ import './App.css';
 import axios from 'axios';
 import cloudy from './assets/cloud@2x.png'
 import snow from './assets/snow@2x.png'
-import thunder from './assets/thunder@2x.png'
-import rain from './assets/rain@2x.png'
-import sunny from './assets/sunny@2x.png'
-import fog from './assets/fog@2x.png'
+// import thunder from './assets/thunder@2x.png'
+// import rain from './assets/rain@2x.png'
+// import sunny from './assets/sunny@2x.png'
+// import fog from './assets/fog@2x.png'
 import drop from './assets/rain_drop.png'
-import pressure_icon from './assets/pressure_icon@2x.png'
-import rabbit from './assets/winter_rabbit@2x.png'
+// import pressure_icon from './assets/pressure_icon@2x.png'
+// import rabbit from './assets/winter_rabbit@2x.png'
 import { useMediaQuery } from 'react-responsive';
-import { BsMoonStars } from "react-icons/bs";
-import { MdOutlineWbSunny } from "react-icons/md";
-import { FaWind } from "react-icons/fa";
-import { IoSearch } from "react-icons/io5";
-import { WiHumidity } from "react-icons/wi";
+// import { BsMoonStars } from "react-icons/bs";
+// import { MdOutlineWbSunny } from "react-icons/md";
+// import { FaWind } from "react-icons/fa";
+// import { IoSearch } from "react-icons/io5";
+// import { WiHumidity } from "react-icons/wi";
+import FormWeather from './FormWeather';
+import WeatherResults from './WeatherResults';
 
 function App() {
   const [weather, setWeather]=useState<any>(null)
@@ -61,44 +63,44 @@ const { humidity, pressure } = weather.main;
 const description=weather.weather[0].main
 const {sunset, sunrise}=weather.sys
 const sunsetTime = getTime(sunset)
-const sunriseTime = getTime(sunrise)
+// const sunriseTime = getTime(sunrise)
 const nowHour = new Date().getHours()
 const NightOrDay = nowHour  >= +sunsetTime.substring(0,2) ? 'night':'day'
-const info_boxes = [
-  {
-    name: 'wschód',
-    value: <p>{sunriseTime}</p>,
-    icon: <MdOutlineWbSunny color="grey" fontSize={16}/>
-  },
-  {
-    name: 'zachód',
-    value: <p>{sunsetTime}</p>,
-    icon: <BsMoonStars color="grey" fontSize={16}/>
-  },
-  {
-    name: 'ciśnienie',
-    value: <div><img src={pressure_icon} className="pressure_icon" alt=""/><p>{pressure}hPa</p></div>,
-    icon: ''
-  },
-]
+// const info_boxes = [
+//   {
+//     name: 'wschód',
+//     value: <p>{sunriseTime}</p>,
+//     icon: <MdOutlineWbSunny color="grey" fontSize={16}/>
+//   },
+//   {
+//     name: 'zachód',
+//     value: <p>{sunsetTime}</p>,
+//     icon: <BsMoonStars color="grey" fontSize={16}/>
+//   },
+//   {
+//     name: 'ciśnienie',
+//     value: <div><img src={pressure_icon} className="pressure_icon" alt=""/><p>{pressure}hPa</p></div>,
+//     icon: ''
+//   },
+// ]
 
-const weather_options={
-  'Thunderstorm': thunder,
-  'Drizzle': rain,
-  'Rain':rain,
-  'Snow': snow,
-  'Mist': rain,
-  'Haze': fog,
-  'Smoke': fog,
-  'Fog': fog,
-  'Sand': fog,
-  'Dust': fog,
-  'Ash': fog,
-  'Squall': fog,
-  'Tornado': cloudy,
-  'Clear': sunny,
-  'Clouds': cloudy,
-}
+// const weather_options={
+//   'Thunderstorm': thunder,
+//   'Drizzle': rain,
+//   'Rain':rain,
+//   'Snow': snow,
+//   'Mist': rain,
+//   'Haze': fog,
+//   'Smoke': fog,
+//   'Fog': fog,
+//   'Sand': fog,
+//   'Dust': fog,
+//   'Ash': fog,
+//   'Squall': fog,
+//   'Tornado': cloudy,
+//   'Clear': sunny,
+//   'Clouds': cloudy,
+// }
 console.log(windowSize.current[1])
 const anim = () => {
   const windowWd = windowSize.current[0];
@@ -147,15 +149,18 @@ console.log(description)
       {isDesktopOrLaptop &&<div className="animation">
         {anim()}
       </div>}
-      {isDesktopOrLaptop && <form onSubmit={submitHandler}>
+      <FormWeather isDesktopOrLaptop={isDesktopOrLaptop} submitHandler={submitHandler}  />
+      {/* {isDesktopOrLaptop && <form onSubmit={submitHandler}>
         <input className="search_input" name="city" type="text" placeholder="Wprowadź nazwę miasta"  />
         <button className="search_btn"><IoSearch color="white" fontSize={16}/></button>
-        </form>}
+        </form>} */}
       {
         weather !== null && weather !== undefined ? (    
           <div className={`weather_results ${isDesktopOrLaptop ? 'desktop': null} ${NightOrDay}`}>
               {!isDesktopOrLaptop && anim()}
-            <div className="weather_results--header">
+              <WeatherResults weather={weather} />
+              {/* <>
+              <div className="weather_results--header">
               <div className="weather_results--header center">
               <p className="city_name">{weather.name}</p>
                 <img className="weather_image" src={weather_options[description as keyof typeof weather_options] !== undefined ?weather_options[description as keyof typeof weather_options]:cloudy } alt="cloudy" />
@@ -175,7 +180,6 @@ console.log(description)
                 <div className="weather_results--header_box">
                   <div>
                   <FaWind color="white" fontSize={16}/><p>wiatr</p>
-
                   </div>
                   <p>{weather.wind.speed}m/sec</p>
                 </div>
@@ -194,6 +198,7 @@ console.log(description)
                 )
               })}
               </div>
+              </> */}
           </div>
         ):(
           <p>Sorry. We can't display weather. Try again later.</p>

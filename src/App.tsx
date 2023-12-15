@@ -105,6 +105,7 @@ function App() {
       const animation_object = getAnimationObject();
       return (
         <img
+          key={i}
           className="animation_obj"
           src={animation_object.img}
           style={{
@@ -115,7 +116,7 @@ function App() {
             right:
               description === "Snow" || description === "Rain"
                 ? 0 + randomNum + "px"
-                : "0px",
+                : "-110px",
             width: description === "Clouds" ? "110px" : "",
             height: description === "Clouds" ? "auto" : "",
             animationDelay: `${delay}s`,
@@ -127,7 +128,7 @@ function App() {
       );
     });
   };
-  console.log(description);
+
   return (
     <div className={`App ${NightOrDay}`}>
       {isDesktopOrLaptop && <div className="animation">{anim()}</div>}

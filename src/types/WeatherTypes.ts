@@ -1,3 +1,44 @@
+import { ReactNode } from "react";
+
+export interface IBox {
+  id: number;
+  name: ReactNode | React.ReactElement;
+  value: ReactNode;
+  icon: React.ReactElement | ReactNode;
+}
+
+type IWeatherOptions =
+  | "Thunderstorm"
+  | "Drizzle"
+  | "Rain"
+  | "Snow"
+  | "Mist"
+  | "Haze"
+  | "Smoke"
+  | "Fog"
+  | "Sand"
+  | "Dust"
+  | "Ash"
+  | "Squall"
+  | "Tornado"
+  | "Clear"
+  | "Clouds";
+
+export type HeaderResultsProps = {
+  weather_options: {
+    [key in IWeatherOptions]: string;
+  };
+  weather_name: string;
+  temperature: number;
+  main_description: string;
+  city: string;
+  info: IBox[];
+};
+
+export type BodyResultsProps = {
+  info: IBox[];
+};
+
 export interface IWeather {
   coord: {
     lon: number;
@@ -36,6 +77,7 @@ export interface IWeather {
     sunrise: number;
     sunset: number;
   };
+  timezone: number;
   id: number;
   name: string;
   cod: number;

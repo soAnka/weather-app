@@ -9,48 +9,74 @@ import fog from "../assets/fog@2x.png";
 import cloudy from "../assets/cloud@2x.png";
 import snow from "../assets/snow@2x.png";
 import pressure_icon from "../assets/pressure_icon@2x.png";
-import rabbit from "../assets/winter_rabbit@2x.png";
 import { WeatherResultsProps } from "../types/WeatherTypes";
+import HeaderResults from "./HeaderResults";
+import BodyResults from "./BodyResults";
+import moment from "moment";
 
 const WeatherResults = ({ weather }: WeatherResultsProps) => {
-  const getTime = (sun: any) => {
-    const sunTime = new Date(sun * 1000);
-    const finTime =
-      (sunTime.getHours() < 10 ? "0" : "") +
-      sunTime.getHours() +
-      ":" +
-      (sunTime.getMinutes() < 10 ? "0" : "") +
-      sunTime.getMinutes();
-    return finTime;
-  };
   const { humidity, pressure } = weather.main;
-  const description = weather.weather[0].main;
   const { sunset, sunrise } = weather.sys;
-  const sunsetTime = getTime(sunset);
-  const sunriseTime = getTime(sunrise);
+  const main_description = weather.weather[0].main;
 
-  const info_boxes = [
-    {
-      name: "wschód",
-      value: <p>{sunriseTime}</p>,
-      icon: <MdOutlineWbSunny color="grey" fontSize={16} />,
-    },
-    {
-      name: "zachód",
-      value: <p>{sunsetTime}</p>,
-      icon: <BsMoonStars color="grey" fontSize={16} />,
-    },
-    {
-      name: "ciśnienie",
-      value: (
-        <div>
-          <img src={pressure_icon} className="pressure_icon" alt="" />
-          <p>{pressure}hPa</p>
-        </div>
-      ),
-      icon: "",
-    },
-  ];
+  const convertTime = (sun: any, timezone: number) => {
+    let sunTime = moment
+      .unix(sun)
+      .utcOffset(timezone / 60)
+      .format("HH:MM");
+
+    return sunTime;
+  };
+
+  const sunsetTime = convertTime(sunset, weather.timezone);
+  const sunriseTime = convertTime(sunrise, weather.timezone);
+
+  const info_boxes = {
+    top: [
+      {
+        id: 1,
+        name: <p className="box-name">wilgotność</p>,
+        value: <p className="box-value">{humidity}%</p>,
+        icon: <WiHumidity color="white" fontSize={16} />,
+      },
+      {
+        id: 2,
+        name: <p className="box-name">wiatr</p>,
+        value: (
+          <p className="box-value">
+            {Math.ceil(weather.wind.speed * 3.6)} km/h
+          </p>
+        ),
+        icon: <FaWind color="white" fontSize={16} />,
+      },
+    ],
+    bottom: [
+      {
+        id: 3,
+        name: <p className="box-name">wschód</p>,
+        value: <p className="box-value">{sunriseTime}</p>,
+        icon: <MdOutlineWbSunny color="grey" fontSize={16} />,
+      },
+      {
+        id: 4,
+        name: <p className="box-name">zachód</p>,
+        value: <p className="box-value">{sunsetTime}</p>,
+        icon: <BsMoonStars color="grey" fontSize={16} />,
+      },
+      {
+        id: 5,
+        name: <p className="box-name">ciśnienie</p>,
+        value: (
+          <div>
+            <img src={pressure_icon} className="pressure_icon" alt="" />
+            <p className="box-value">{pressure}hPa</p>
+          </div>
+        ),
+        icon: "",
+      },
+    ],
+  };
+
   const weather_options = {
     Thunderstorm: thunder,
     Drizzle: rain,
@@ -68,57 +94,18 @@ const WeatherResults = ({ weather }: WeatherResultsProps) => {
     Clear: sunny,
     Clouds: cloudy,
   };
+
   return (
     <>
-      <div className="weather_results--header">
-        <div className="weather_results--header center">
-          <p className="city_name">{weather.name}</p>
-          <img
-            className="weather_image"
-            src={
-              weather_options[description as keyof typeof weather_options] !==
-              undefined
-                ? weather_options[description as keyof typeof weather_options]
-                : cloudy
-            }
-            alt="cloudy"
-          />
-          <p className="city_temperature">
-            {Math.round(weather.main.temp)}&deg;
-          </p>
-          <p className="city_description">{weather.weather[0].description}</p>
-        </div>
-        <div className="weather_results--header bottom">
-          <img className="winter_rabbit" src={rabbit} alt="winter rabbit" />
-          <div className="weather_results--header_box">
-            <div>
-              <WiHumidity color="white" fontSize={16} />
-              <p>wilgotność</p>
-            </div>
-            <p>{humidity}%</p>
-          </div>
-          <div className="weather_results--header_box">
-            <div>
-              <FaWind color="white" fontSize={16} />
-              <p>wiatr</p>
-            </div>
-            <p>{weather.wind.speed}m/sec</p>
-          </div>
-        </div>
-      </div>
-      <div className="weather_results--info">
-        {info_boxes.map((box) => {
-          return (
-            <div key={box.name} className="box">
-              <div>
-                {box.icon}
-                <p className="box-name">{box.name}</p>
-              </div>
-              <p className="box-value">{box.value}</p>
-            </div>
-          );
-        })}
-      </div>
+      <HeaderResults
+        weather_options={weather_options}
+        weather_name={weather.name}
+        temperature={weather.main.temp}
+        main_description={main_description}
+        city={weather.weather[0].description}
+        info={info_boxes.top}
+      />
+      <BodyResults info={info_boxes.bottom} />
     </>
   );
 };

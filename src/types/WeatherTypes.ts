@@ -33,6 +33,8 @@ export type HeaderResultsProps = {
   main_description: string;
   city: string;
   info: IBox[];
+  isDesktopOrLaptop: boolean;
+  renderAnimation: any;
 };
 
 export type BodyResultsProps = {
@@ -85,4 +87,6 @@ export interface IWeather {
 
 export type WeatherResultsProps = {
   weather: IWeather;
+  isDesktopOrLaptop: boolean;
+  renderAnimation: any;
 };

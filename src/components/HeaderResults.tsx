@@ -10,9 +10,12 @@ const HeaderResults = ({
   main_description,
   city,
   info,
+  isDesktopOrLaptop,
+  renderAnimation,
 }: HeaderResultsProps) => {
   return (
     <div className="weather_results--header">
+      {!isDesktopOrLaptop && <div className="animation">{renderAnimation}</div>}
       <div className="weather_results--header top">
         <p className="city_name">{weather_name}</p>
         <img

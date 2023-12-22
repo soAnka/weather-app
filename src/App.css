@@ -26,9 +26,9 @@ html {
 
 .animation {
   width: 100%;
-  height: 100vh;
+  height: 88%;
   position: absolute;
-  top: 0;
+  top: 84.5px;
   left: 0;
   z-index: -2;
   overflow: hidden;
@@ -39,7 +39,7 @@ html {
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
   position: absolute;
-  animation-play-state: paused;
+  /* animation-play-state: paused; */
   z-index: 2;
 }
 
@@ -87,6 +87,7 @@ form {
   display: flex;
   width: 100%;
   max-width: 375px;
+  z-index: 1000;
 }
 .search_input,
 .search_btn {
@@ -179,6 +180,7 @@ button:hover {
   align-items: center;
   z-index: 100;
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.5);
+  position: relative;
 }
 
 /* weather results top  */

@@ -14,7 +14,11 @@ import HeaderResults from "./HeaderResults";
 import BodyResults from "./BodyResults";
 import moment from "moment";
 
-const WeatherResults = ({ weather }: WeatherResultsProps) => {
+const WeatherResults = ({
+  weather,
+  isDesktopOrLaptop,
+  renderAnimation,
+}: WeatherResultsProps) => {
   const { humidity, pressure } = weather.main;
   const { sunset, sunrise } = weather.sys;
   const main_description = weather.weather[0].main;
@@ -104,6 +108,8 @@ const WeatherResults = ({ weather }: WeatherResultsProps) => {
         main_description={main_description}
         city={weather.weather[0].description}
         info={info_boxes.top}
+        isDesktopOrLaptop={isDesktopOrLaptop}
+        renderAnimation={renderAnimation}
       />
       <BodyResults info={info_boxes.bottom} />
     </>

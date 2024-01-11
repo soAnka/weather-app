@@ -1,7 +1,7 @@
-import cloudy from "../assets/cloud@2x.png";
-import snow from "../assets/snow@2x.png";
-import drop from "../assets/rain_drop.png";
-import { AnimationItemProps } from "../types/AnimationTypes";
+import cloudy from "../../assets/cloud@2x.png";
+import snow from "../../assets/snow@2x.png";
+import drop from "../../assets/rain_drop.png";
+import { AnimationItemProps } from "../../types/AnimationTypes";
 
 export const getAnimationObject = (weatherCondition: string) => {
   let obj_styles = {

@@ -2,27 +2,39 @@ import { FaWind } from "react-icons/fa";
 import { WiHumidity } from "react-icons/wi";
 import { BsMoonStars } from "react-icons/bs";
 import { MdOutlineWbSunny } from "react-icons/md";
-import thunder from "../assets/thunder@2x.png";
-import rain from "../assets/rain@2x.png";
-import sunny from "../assets/sunny@2x.png";
-import fog from "../assets/fog@2x.png";
-import cloudy from "../assets/cloud@2x.png";
-import snow from "../assets/snow@2x.png";
 import pressure_icon from "../assets/pressure_icon@2x.png";
-import { WeatherResultsProps } from "../types/WeatherTypes";
+import { IWeatherOptions, WeatherResultsProps } from "../types/WeatherTypes";
 import HeaderResults from "./HeaderResults";
 import BodyResults from "./BodyResults";
 import moment from "moment";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const WeatherResults = ({
-  weather,
   isDesktopOrLaptop,
   renderAnimation,
+  weather,
+  error,
 }: WeatherResultsProps) => {
+  const weatherDescription = useSelector<RootState, string>(
+    (state) => state.weatherDescription,
+  );
+
+  type OptionsTypes = {
+    [key in IWeatherOptions]: string;
+  };
+  const weather_options = useSelector<RootState, OptionsTypes>(
+    (state) => state.weatherOptions,
+  );
+  if (!weather) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    throw new Error("Error Weather Results");
+  }
   const { humidity, pressure } = weather.main;
   const { sunset, sunrise } = weather.sys;
-  const main_description = weather.weather[0].main;
-
+  const main_description = weatherDescription ? weatherDescription : "Clouds";
   const convertTime = (sun: any, timezone: number) => {
     let sunTime = moment
       .unix(sun)
@@ -79,24 +91,6 @@ const WeatherResults = ({
         icon: "",
       },
     ],
-  };
-
-  const weather_options = {
-    Thunderstorm: thunder,
-    Drizzle: rain,
-    Rain: rain,
-    Snow: snow,
-    Mist: rain,
-    Haze: fog,
-    Smoke: fog,
-    Fog: fog,
-    Sand: fog,
-    Dust: fog,
-    Ash: fog,
-    Squall: fog,
-    Tornado: cloudy,
-    Clear: sunny,
-    Clouds: cloudy,
   };
 
   return (

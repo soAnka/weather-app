@@ -1,11 +1,17 @@
 import { IoSearch } from "react-icons/io5";
+import { store } from "../store/store";
+import { setCity } from "../store/features/weatherSlice";
 
-type FormProps = {
-  isDesktopOrLaptop: boolean;
-  submitHandler: (event: React.FormEvent<HTMLFormElement>) => void;
-};
-
-const FormWeather = ({ isDesktopOrLaptop, submitHandler }: FormProps) => {
+const FormWeather = () => {
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const city = formData.get("city");
+    if (city !== "" && city !== null) {
+      store.dispatch(setCity(city));
+    }
+  };
   return (
     <>
       <form onSubmit={submitHandler}>

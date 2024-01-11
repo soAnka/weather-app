@@ -7,7 +7,7 @@ export interface IBox {
   icon: React.ReactElement | ReactNode;
 }
 
-type IWeatherOptions =
+export type IWeatherOptions =
   | "Thunderstorm"
   | "Drizzle"
   | "Rain"
@@ -89,4 +89,5 @@ export type WeatherResultsProps = {
   weather: IWeather;
   isDesktopOrLaptop: boolean;
   renderAnimation: any;
+  error: null | string;
 };
